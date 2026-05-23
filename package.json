@@ -4,13 +4,16 @@
   "description": "Intake form y firma para Certus Consultores",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server.js"
   },
   "keywords": ["intake", "pld", "certus"],
   "author": "José Luis Naranjo",
   "license": "MIT",
   "engines": {
     "node": "18.x"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.0.3"
   }
 }
