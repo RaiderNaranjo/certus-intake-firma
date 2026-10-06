@@ -6,6 +6,7 @@
 <title>Certus PLD — Registro de Cliente</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
+
 :root {
   --navy: #1F3864;
   --navy-dark: #162847;
@@ -656,72 +657,116 @@ input.error, select.error, textarea.error {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ─── TIPO DE CLIENTE ─── */
+.type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 700px) { .type-grid { grid-template-columns: 1fr; } }
+.type-card { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 16px; background: var(--white); border: 1.5px solid var(--gray-200); cursor: pointer; transition: all .15s; }
+.type-card:hover { border-color: var(--gold); }
+.type-card input { position: absolute; opacity: 0; pointer-events: none; }
+.type-card:has(input:checked) { border-color: var(--gold); background: var(--gold-pale); box-shadow: 0 0 0 1px var(--gold); }
+.type-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy); }
+.type-desc { font-size: 12.5px; line-height: 1.45; color: var(--gray-600); }
+.optional { font-weight: 400; font-size: 11px; color: var(--gray-400); text-transform: none; letter-spacing: 0; margin-left: 4px; }
+[hidden] { display: none !important; }
+
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <header class="site-header">
-  <div class="logo">
-    <span class="logo-certus">CERTUS</span>
-    <span class="logo-sub">Consultores</span>
-  </div>
+  <div class="logo"><span class="logo-certus">CERTUS</span><span class="logo-sub">Consultores</span></div>
   <div class="header-badge">Registro seguro</div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-eyebrow">Kit de Cumplimiento PLD/FT</div>
   <h1 class="hero-title">Registro de <em>información</em> del cliente</h1>
   <p class="hero-body">Complete los siguientes datos para que podamos personalizar su kit de cumplimiento normativo. El proceso toma aproximadamente 5 minutos.</p>
 </div>
 
-<!-- PROGRESS -->
 <div class="progress-wrap">
-  <div class="progress-step active" id="step-1">
-    <div class="step-num">1</div>
-    <div class="step-label">Empresa</div>
-  </div>
-  <div class="progress-step" id="step-2">
-    <div class="step-num">2</div>
-    <div class="step-label">Operación</div>
-  </div>
-  <div class="progress-step" id="step-3">
-    <div class="step-num">3</div>
-    <div class="step-label">Cumplimiento</div>
-  </div>
-  <div class="progress-step" id="step-4">
-    <div class="step-num">✓</div>
-    <div class="step-label">Confirmación</div>
-  </div>
+  <div class="progress-step active" id="step-1"><div class="step-num">1</div><div class="step-label">Perfil</div></div>
+  <div class="progress-step" id="step-2"><div class="step-num">2</div><div class="step-label">Datos</div></div>
+  <div class="progress-step" id="step-3"><div class="step-num">3</div><div class="step-label">Actividad</div></div>
+  <div class="progress-step" id="step-4"><div class="step-num">4</div><div class="step-label">Cumplimiento</div></div>
+  <div class="progress-step" id="step-5"><div class="step-num">✓</div><div class="step-label">Confirmación</div></div>
 </div>
 
-<!-- FORM -->
 <div class="form-outer">
 
-  <!-- SECCIÓN 1: DATOS DE LA EMPRESA -->
+  <!-- PASO 1: PERFIL -->
   <div class="form-section active" id="section-1">
     <div class="section-header">
-      <div class="section-num">Paso 1 de 3</div>
-      <h2 class="section-title">Datos de la empresa</h2>
-      <p class="section-desc">Información legal de la persona moral o física con actividad empresarial sujeta a la LFPIORPI.</p>
+      <div class="section-num">Paso 1 de 4</div>
+      <h2 class="section-title">¿Qué tipo de sujeto obligado es usted?</h2>
+      <p class="section-desc">Con esta respuesta preparamos el kit que le corresponde conforme al artículo 17 de la LFPIORPI.</p>
     </div>
-
     <div class="error-banner" id="error-1">Por favor corrija los campos marcados antes de continuar.</div>
 
     <div class="field-group">
-      <div class="field-group-title">Identidad legal</div>
+      <div class="field-group-title">Tipo de cliente <span class="required">*</span></div>
+      <div class="type-grid" id="tipo-grid">
+        <label class="type-card"><input type="radio" name="tipo" value="inmobiliaria">
+          <span class="type-title">Inmobiliaria o desarrollador</span>
+          <span class="type-desc">Compraventa, intermediación, desarrollo o preventa de inmuebles (fr. V y V Bis).</span></label>
+        <label class="type-card"><input type="radio" name="tipo" value="notarial">
+          <span class="type-title">Notaría pública</span>
+          <span class="type-desc">Fe pública notarial: actos y protocolizaciones del art. 17, fr. XII, apartado A.</span></label>
+        <label class="type-card"><input type="radio" name="tipo" value="profesionistas">
+          <span class="type-title">Profesionista o despacho</span>
+          <span class="type-desc">Abogados, contadores y asesores que preparan o realizan operaciones por sus clientes (fr. XI).</span></label>
+      </div>
+      <div class="field-error" id="err-tipo">Seleccione una opción.</div>
+    </div>
 
+    <div class="field-group" id="grp-tipoPersona" data-types="inmobiliaria profesionistas">
+      <div class="field-group-title">Forma de organización <span class="required">*</span></div>
       <div class="field">
-        <label for="razonSocial">Razón social <span class="required">*</span></label>
-        <input type="text" id="razonSocial" placeholder="Ej. Inmobiliaria del Sureste SA de CV" autocomplete="organization">
+        <select id="tipoPersona">
+          <option value="">Seleccione...</option>
+          <option value="PM" data-t="inmobiliaria">Persona moral (sociedad)</option>
+          <option value="PF" data-t="inmobiliaria">Persona física con actividad empresarial</option>
+          <option value="PM" data-t="profesionistas">Despacho constituido como persona moral</option>
+          <option value="PF" data-t="profesionistas">Profesional independiente (persona física)</option>
+        </select>
+        <div class="field-hint">Las personas físicas cumplen personal y directamente con la Ley (art. 20); las personas morales designan a un Representante de Cumplimiento.</div>
+        <div class="field-error" id="err-tipoPersona">Seleccione una opción.</div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <div></div>
+      <button class="btn-next" onclick="goToSection(2)">Continuar
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+
+  <!-- PASO 2: DATOS -->
+  <div class="form-section" id="section-2">
+    <div class="section-header">
+      <div class="section-num">Paso 2 de 4</div>
+      <h2 class="section-title">Datos generales</h2>
+      <p class="section-desc" id="desc-2"></p>
+    </div>
+    <div class="error-banner" id="error-2">Por favor corrija los campos marcados antes de continuar.</div>
+
+    <div class="field-group">
+      <div class="field-group-title">Identidad legal</div>
+      <div class="field">
+        <label for="razonSocial"><span id="lbl-razonSocial">Razón social</span> <span class="required">*</span></label>
+        <input type="text" id="razonSocial" autocomplete="organization">
+        <div class="field-hint" id="hint-razonSocial"></div>
         <div class="field-error" id="err-razonSocial">Este campo es requerido.</div>
       </div>
-
+      <div class="field" data-types="notarial">
+        <label for="numNotaria">Número de notaría y entidad <span class="required">*</span></label>
+        <input type="text" id="numNotaria" placeholder="Ej. Notaría Pública No. 259, Tamaulipas">
+        <div class="field-error" id="err-numNotaria">Este campo es requerido.</div>
+      </div>
       <div class="field-row">
         <div class="field">
           <label for="rfc">RFC <span class="required">*</span></label>
-          <input type="text" id="rfc" placeholder="Ej. ISS900101ABC" maxlength="13" style="text-transform:uppercase">
+          <input type="text" id="rfc" maxlength="13" style="text-transform:uppercase" placeholder="Ej. ISS900101ABC">
           <div class="field-hint">12 caracteres (persona moral) o 13 (persona física)</div>
           <div class="field-error" id="err-rfc">Ingrese un RFC válido.</div>
         </div>
@@ -731,102 +776,148 @@ input.error, select.error, textarea.error {
           <div class="field-error" id="err-ciudad">Este campo es requerido.</div>
         </div>
       </div>
-
       <div class="field">
-        <label for="domicilio">Domicilio fiscal <span class="required">*</span></label>
-        <input type="text" id="domicilio" placeholder="Calle, número, colonia">
+        <label for="domicilio"><span id="lbl-domicilio">Domicilio fiscal</span> <span class="required">*</span></label>
+        <input type="text" id="domicilio" placeholder="Calle, número, colonia, C.P.">
         <div class="field-error" id="err-domicilio">Este campo es requerido.</div>
       </div>
     </div>
 
     <div class="field-group">
-      <div class="field-group-title">Representante legal</div>
-
+      <div class="field-group-title" id="ttl-rl">Representante legal</div>
       <div class="field-row">
         <div class="field">
-          <label for="nombreRL">Nombre completo <span class="required">*</span></label>
+          <label for="nombreRL"><span id="lbl-nombreRL">Nombre completo</span> <span class="required">*</span></label>
           <input type="text" id="nombreRL" placeholder="Nombre completo">
           <div class="field-error" id="err-nombreRL">Este campo es requerido.</div>
         </div>
         <div class="field">
           <label for="emailRL">Correo electrónico <span class="required">*</span></label>
-          <input type="email" id="emailRL" placeholder="correo@empresa.com">
+          <input type="email" id="emailRL" placeholder="correo@dominio.com">
           <div class="field-error" id="err-emailRL">Ingrese un correo válido.</div>
         </div>
       </div>
-
-      <div class="field">
-        <label for="telefonoRL">Teléfono <span class="optional">opcional</span></label>
-        <input type="tel" id="telefonoRL" placeholder="Ej. 999 123 4567">
+      <div class="field-row">
+        <div class="field">
+          <label for="telefonoRL">Teléfono <span class="optional">opcional</span></label>
+          <input type="tel" id="telefonoRL" placeholder="Ej. 999 123 4567">
+        </div>
+        <div class="field" data-types="profesionistas">
+          <label for="cedula">Cédula profesional <span class="optional">opcional</span></label>
+          <input type="text" id="cedula" placeholder="Número de cédula">
+        </div>
       </div>
     </div>
 
     <div class="form-nav">
-      <div></div>
-      <button class="btn-next" onclick="goToSection(2)">
-        Continuar
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-      </button>
+      <button class="btn-back" onclick="goToSection(1)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg> Regresar</button>
+      <button class="btn-next" onclick="goToSection(3)">Continuar
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
     </div>
   </div>
 
-  <!-- SECCIÓN 2: OPERACIÓN -->
-  <div class="form-section" id="section-2">
+  <!-- PASO 3: ACTIVIDAD -->
+  <div class="form-section" id="section-3">
     <div class="section-header">
-      <div class="section-num">Paso 2 de 3</div>
+      <div class="section-num">Paso 3 de 4</div>
       <h2 class="section-title">Actividades y operación</h2>
-      <p class="section-desc">Esta información determina qué fracciones de la LFPIORPI le aplican y cómo se configuran sus umbrales.</p>
+      <p class="section-desc" id="desc-3"></p>
     </div>
+    <div class="error-banner" id="error-3">Por favor corrija los campos marcados antes de continuar.</div>
 
-    <div class="error-banner" id="error-2">Por favor corrija los campos marcados antes de continuar.</div>
-
-    <div class="field-group">
+    <!-- Inmobiliaria -->
+    <div class="field-group" data-types="inmobiliaria">
       <div class="field-group-title">Tipo de actividades</div>
-
       <div class="field">
         <label>Actividades que realiza la empresa <span class="required">*</span></label>
-        <div class="check-grid" id="actividades-grid">
-          <label class="check-item">
-            <input type="checkbox" name="actividad" value="Compraventa de inmuebles">
-            <span class="check-label">Compraventa de inmuebles</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" name="actividad" value="Arrendamiento de inmuebles">
-            <span class="check-label">Arrendamiento de inmuebles</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" name="actividad" value="Desarrollo inmobiliario">
-            <span class="check-label">Desarrollo inmobiliario</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" name="actividad" value="Gestión de proyectos">
-            <span class="check-label">Gestión de proyectos</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" name="actividad" value="Intermediación inmobiliaria">
-            <span class="check-label">Intermediación inmobiliaria</span>
-          </label>
-          <label class="check-item">
-            <input type="checkbox" name="actividad" value="Preventa de unidades">
-            <span class="check-label">Preventa de unidades</span>
-          </label>
+        <div class="check-grid" id="grid-inmobiliaria">
+          <label class="check-item"><input type="checkbox" name="inc-inmobiliaria" value="Compraventa de inmuebles"><span class="check-label">Compraventa de inmuebles</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-inmobiliaria" value="Arrendamiento de inmuebles"><span class="check-label">Arrendamiento de inmuebles</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-inmobiliaria" value="Desarrollo inmobiliario"><span class="check-label">Desarrollo inmobiliario</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-inmobiliaria" value="Gestión de proyectos"><span class="check-label">Gestión de proyectos</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-inmobiliaria" value="Intermediación inmobiliaria"><span class="check-label">Intermediación inmobiliaria</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-inmobiliaria" value="Preventa de unidades"><span class="check-label">Preventa de unidades</span></label>
         </div>
-        <div class="field-error" id="err-actividades">Seleccione al menos una actividad.</div>
+        <div class="field-error" id="err-inc-inmobiliaria">Seleccione al menos una actividad.</div>
+      </div>
+    </div>
+
+    <!-- Notarial -->
+    <div class="field-group" data-types="notarial">
+      <div class="field-group-title">Actos que formaliza la notaría (art. 17, fr. XII, apartado A)</div>
+      <div class="field">
+        <label>Seleccione los que formaliza <span class="required">*</span></label>
+        <div class="check-grid" id="grid-notarial">
+          <label class="check-item"><input type="checkbox" name="inc-notarial" value="a" data-txt="a) Derechos reales sobre inmuebles"><span class="check-label">a) Transmisión o constitución de derechos reales sobre inmuebles</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-notarial" value="b" data-txt="b) Poderes irrevocables"><span class="check-label">b) Poderes irrevocables de administración o dominio</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-notarial" value="c" data-txt="c) Personas morales"><span class="check-label">c) Constitución de personas morales, aumentos o disminuciones de capital, fusión, escisión, compraventa de acciones</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-notarial" value="d" data-txt="d) Fideicomisos"><span class="check-label">d) Fideicomisos traslativos de dominio o de garantía</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-notarial" value="e" data-txt="e) Mutuo o crédito"><span class="check-label">e) Contratos de mutuo o crédito (acreedor fuera del sistema financiero)</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-notarial" value="ninguno" id="ninguno-notarial"><span class="check-label"><strong>Ninguno</strong> de los anteriores</span></label>
+        </div>
+        <div class="field-hint">Lo que no marque se hará constar en el Manual como actos que la notaría no formaliza (art. 37 Bis 2 de las Reglas).</div>
+        <div class="field-error" id="err-inc-notarial">Seleccione al menos un acto, o la opción "Ninguno".</div>
+      </div>
+    </div>
+
+    <!-- Profesionistas -->
+    <div class="field-group" data-types="profesionistas">
+      <div class="field-group-title">Actividad profesional</div>
+      <div class="field">
+        <label for="profesion">Profesión o giro <span class="required">*</span></label>
+        <select id="profesion">
+          <option value="">Seleccione...</option>
+          <option>Abogacía</option>
+          <option>Contaduría pública</option>
+          <option>Asesoría corporativa</option>
+          <option>Abogacía y contaduría</option>
+          <option value="otra">Otra</option>
+        </select>
+        <div class="field-error" id="err-profesion">Seleccione una opción.</div>
+      </div>
+      <div class="field" id="fld-profesionOtra" hidden>
+        <label for="profesionOtra">Especifique <span class="required">*</span></label>
+        <input type="text" id="profesionOtra" placeholder="Profesión o giro">
+        <div class="field-error" id="err-profesionOtra">Este campo es requerido.</div>
+      </div>
+      <div class="field">
+        <label>Servicios que presta a sus clientes (art. 17, fr. XI) <span class="required">*</span></label>
+        <div class="check-grid" id="grid-profesionistas">
+          <label class="check-item"><input type="checkbox" name="inc-profesionistas" value="a" data-txt="a) Compraventa de inmuebles o cesión de derechos"><span class="check-label">a) Compraventa de inmuebles o cesión de derechos sobre ellos</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-profesionistas" value="b" data-txt="b) Administración de recursos, valores o activos"><span class="check-label">b) Administración y manejo de recursos, valores o activos de clientes</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-profesionistas" value="c" data-txt="c) Manejo de cuentas bancarias, de ahorro o de valores"><span class="check-label">c) Manejo de cuentas bancarias, de ahorro o de valores</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-profesionistas" value="d" data-txt="d) Aportaciones de capital para sociedades"><span class="check-label">d) Organización de aportaciones de capital para sociedades</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-profesionistas" value="e" data-txt="e) Constitución, fusión o administración de personas morales y fideicomisos"><span class="check-label">e) Constitución, escisión, fusión, operación o administración de personas morales o fideicomisos; compra o venta de entidades mercantiles</span></label>
+          <label class="check-item"><input type="checkbox" name="inc-profesionistas" value="ninguno" id="ninguno-profesionistas"><span class="check-label"><strong>Ninguno</strong> de los anteriores</span></label>
+        </div>
+        <div class="field-hint">Marque solo los que prepara o realiza para sus clientes. Litigio, asesoría laboral o fiscal sin manejo de cuentas ni constitución de sociedades no se marcan.</div>
+        <div class="field-error" id="err-inc-profesionistas">Seleccione al menos un servicio, o la opción "Ninguno".</div>
+      </div>
+      <div class="field">
+        <label for="actuaRep">¿Realiza operaciones financieras en nombre y representación de sus clientes? <span class="required">*</span></label>
+        <select id="actuaRep">
+          <option value="">Seleccione...</option>
+          <option value="Sí, de forma habitual">Sí, de forma habitual (movimientos de fondos, pagos, cuentas, aportaciones)</option>
+          <option value="Ocasionalmente">Ocasionalmente</option>
+          <option value="No, solo asesoría o preparación">No, solo asesoría o preparación de documentos</option>
+        </select>
+        <div class="field-hint">Determina cuándo procede el aviso ante la Secretaría (art. 17, fr. XI).</div>
+        <div class="field-error" id="err-actuaRep">Seleccione una opción.</div>
+      </div>
+      <div class="field">
+        <label for="lineasExcluidas">Otros servicios que presta y que NO involucran lo anterior <span class="optional">opcional</span></label>
+        <input type="text" id="lineasExcluidas" placeholder="Ej. litigio, asesoría laboral, consultoría fiscal">
       </div>
     </div>
 
     <div class="field-group">
       <div class="field-group-title">Volumen operativo</div>
-
       <div class="field-row">
         <div class="field">
-          <label for="numOperaciones">Operaciones al mes (aprox.) <span class="required">*</span></label>
+          <label for="numOperaciones"><span id="lbl-numOps">Operaciones al mes (aprox.)</span> <span class="required">*</span></label>
           <select id="numOperaciones">
             <option value="">Seleccione...</option>
-            <option value="1-5">1 – 5</option>
-            <option value="6-20">6 – 20</option>
-            <option value="21-50">21 – 50</option>
-            <option value="51+">Más de 50</option>
+            <option value="1-5">1 – 5</option><option value="6-20">6 – 20</option><option value="21-50">21 – 50</option><option value="51+">Más de 50</option>
           </select>
           <div class="field-error" id="err-numOperaciones">Seleccione una opción.</div>
         </div>
@@ -842,7 +933,6 @@ input.error, select.error, textarea.error {
           <div class="field-error" id="err-montoPromedio">Seleccione una opción.</div>
         </div>
       </div>
-
       <div class="field">
         <label for="estadosOperacion">Estados donde opera <span class="required">*</span></label>
         <input type="text" id="estadosOperacion" placeholder="Ej. Yucatán, Quintana Roo">
@@ -852,7 +942,6 @@ input.error, select.error, textarea.error {
 
     <div class="field-group">
       <div class="field-group-title">Situación regulatoria actual</div>
-
       <div class="field">
         <label for="estaRegistrado">¿Ya está registrado en el SPPLD (portal SAT)? <span class="required">*</span></label>
         <select id="estaRegistrado">
@@ -863,9 +952,42 @@ input.error, select.error, textarea.error {
         </select>
         <div class="field-error" id="err-estaRegistrado">Seleccione una opción.</div>
       </div>
-
       <div class="field">
-        <label for="tieneRC">¿Cuenta ya con un Representante de Cumplimiento (RC) designado? <span class="required">*</span></label>
+        <label for="historial">¿Ha realizado antes operaciones sujetas sin identificar a sus clientes o sin presentar avisos? <span class="required">*</span></label>
+        <select id="historial">
+          <option value="">Seleccione...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+          <option value="No lo sé">No lo sé</option>
+        </select>
+        <div class="field-hint">Nos permite considerar una regularización histórica previa a la auditoría (art. 55 de la Ley).</div>
+        <div class="field-error" id="err-historial">Seleccione una opción.</div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="goToSection(2)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg> Regresar</button>
+      <button class="btn-next" onclick="goToSection(4)">Continuar
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+
+  <!-- PASO 4: CUMPLIMIENTO -->
+  <div class="form-section" id="section-4">
+    <div class="section-header">
+      <div class="section-num">Paso 4 de 4</div>
+      <h2 class="section-title" id="title-4">Representante de Cumplimiento</h2>
+      <p class="section-desc" id="desc-4"></p>
+    </div>
+    <div class="error-banner" id="error-4">Por favor corrija los campos marcados antes de continuar.</div>
+
+    <div class="info-box" id="info-pm" data-rc="PM"><p><strong>¿Quién puede ser el RC?</strong> Debe ser una persona física con autoridad suficiente para implementar el programa; deberá aceptar su designación en el Portal con su RFC y e.firma. Certus le asesorará sobre el perfil más adecuado.</p></div>
+    <div class="info-box" id="info-pf" data-rc="PF"><p><strong>Cumplimiento personal.</strong> Las personas físicas cumplen personal y directamente con la Ley (art. 20): no designan Representante de Cumplimiento ante la Secretaría. Puede, si lo desea, auxiliarse de un encargado operativo interno, sin que ello traslade su responsabilidad.</p></div>
+
+    <div class="field-group" data-rc="PM">
+      <div class="field-group-title">Datos del RC</div>
+      <div class="field">
+        <label for="tieneRC">¿Cuenta ya con un Representante de Cumplimiento designado? <span class="required">*</span></label>
         <select id="tieneRC">
           <option value="">Seleccione...</option>
           <option value="Sí, ya tengo RC designado">Sí, ya tengo RC designado</option>
@@ -874,37 +996,6 @@ input.error, select.error, textarea.error {
         </select>
         <div class="field-error" id="err-tieneRC">Seleccione una opción.</div>
       </div>
-    </div>
-
-    <div class="form-nav">
-      <button class="btn-back" onclick="goToSection(1)">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        Regresar
-      </button>
-      <button class="btn-next" onclick="goToSection(3)">
-        Continuar
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 3: REPRESENTANTE DE CUMPLIMIENTO -->
-  <div class="form-section" id="section-3">
-    <div class="section-header">
-      <div class="section-num">Paso 3 de 3</div>
-      <h2 class="section-title">Representante de Cumplimiento</h2>
-      <p class="section-desc">El RC es la persona responsable de ejecutar el programa PLD/FT dentro de la empresa. Sus datos aparecerán en todos los documentos del kit.</p>
-    </div>
-
-    <div class="error-banner" id="error-3">Por favor corrija los campos marcados antes de continuar.</div>
-
-    <div class="info-box">
-      <p><strong>¿Quién puede ser el RC?</strong> Puede ser el Representante Legal, un director, o cualquier persona con autoridad suficiente para implementar el programa. Certus le asesorará sobre el perfil más adecuado.</p>
-    </div>
-
-    <div class="field-group">
-      <div class="field-group-title">Datos del RC</div>
-
       <div class="field-row">
         <div class="field">
           <label for="nombreRC">Nombre completo del RC <span class="required">*</span></label>
@@ -912,17 +1003,15 @@ input.error, select.error, textarea.error {
           <div class="field-error" id="err-nombreRC">Este campo es requerido.</div>
         </div>
         <div class="field">
-          <label for="cargoRC">Cargo dentro de la empresa <span class="required">*</span></label>
-          <input type="text" id="cargoRC" placeholder="Ej. Director General, Gerente">
+          <label for="cargoRC">Cargo <span class="required">*</span></label>
+          <input type="text" id="cargoRC" placeholder="Ej. Director General, Socio">
           <div class="field-error" id="err-cargoRC">Este campo es requerido.</div>
         </div>
       </div>
-
       <div class="field-row">
         <div class="field">
           <label for="emailRC">Correo del RC <span class="required">*</span></label>
-          <input type="email" id="emailRC" placeholder="rc@empresa.com">
-          <div class="field-hint">Recibirá las alertas mensuales del SAT</div>
+          <input type="email" id="emailRC" placeholder="rc@dominio.com">
           <div class="field-error" id="err-emailRC">Ingrese un correo válido.</div>
         </div>
         <div class="field">
@@ -932,21 +1021,25 @@ input.error, select.error, textarea.error {
       </div>
     </div>
 
+    <div class="field-group" data-rc="PF">
+      <div class="field-group-title">Encargado operativo interno <span class="optional">opcional</span></div>
+      <div class="field-row">
+        <div class="field"><label for="nombreEO">Nombre completo</label><input type="text" id="nombreEO" placeholder="Nombre completo"></div>
+        <div class="field"><label for="cargoEO">Cargo</label><input type="text" id="cargoEO" placeholder="Ej. Asistente, Pasante"></div>
+      </div>
+      <div class="field"><label for="emailEO">Correo</label><input type="email" id="emailEO" placeholder="correo@dominio.com"></div>
+    </div>
+
     <div class="field-group">
       <div class="field-group-title">Información adicional</div>
-
       <div class="field">
-        <label for="numEmpleados">Número de empleados <span class="required">*</span></label>
+        <label for="numEmpleados">Número de empleados o colaboradores <span class="required">*</span></label>
         <select id="numEmpleados">
           <option value="">Seleccione...</option>
-          <option value="1-5">1 – 5</option>
-          <option value="6-15">6 – 15</option>
-          <option value="16-50">16 – 50</option>
-          <option value="51+">Más de 50</option>
+          <option value="1-5">1 – 5</option><option value="6-15">6 – 15</option><option value="16-50">16 – 50</option><option value="51+">Más de 50</option>
         </select>
         <div class="field-error" id="err-numEmpleados">Seleccione una opción.</div>
       </div>
-
       <div class="field">
         <label for="comentarios">Comentarios o situaciones especiales <span class="optional">opcional</span></label>
         <textarea id="comentarios" placeholder="Ej. Tenemos una auditoría programada en 60 días, operamos con clientes extranjeros, etc."></textarea>
@@ -954,216 +1047,299 @@ input.error, select.error, textarea.error {
     </div>
 
     <div class="form-nav">
-      <button class="btn-back" onclick="goToSection(2)">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        Regresar
-      </button>
-      <button class="btn-submit" id="btn-submit" onclick="submitForm()">
-        <div class="spinner"></div>
-        <span class="btn-text">Enviar registro</span>
-      </button>
+      <button class="btn-back" onclick="goToSection(3)"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg> Regresar</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()"><div class="spinner"></div><span class="btn-text">Enviar registro</span></button>
     </div>
   </div>
 
-  <!-- PANTALLA DE ÉXITO -->
+  <!-- ÉXITO -->
   <div class="success-screen" id="success-screen">
-    <div class="success-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-    </div>
+    <div class="success-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
     <h2 class="success-title">Registro enviado</h2>
-    <p class="success-body">Hemos recibido la información de su empresa. En los próximos minutos recibirá un correo de confirmación de Certus Consultores.</p>
-    <p class="success-body" style="font-size:13px; margin-top:8px;">Para cualquier pregunta: <strong>contacto@certusconsultores.com.mx</strong></p>
-
-    <div class="success-next" style="margin-top:32px;">
+    <p class="success-body">Hemos recibido su información. Certus Consultores preparará su kit personalizado y se pondrá en contacto con usted.</p>
+    <p class="success-body" style="font-size:13px; margin-top:8px;">Para cualquier pregunta: <strong>contacto@certusconsultores.com.mx</strong> · <strong>contacto@espinosasalazarabogados.com</strong></p>
+    <div class="success-next">
       <div class="success-next-title">¿Qué sigue?</div>
       <ul>
-        <li>Recibirá confirmación por correo electrónico en los próximos minutos</li>
         <li>Certus revisará su información y preparará su kit personalizado</li>
         <li>Le contactaremos en 24 horas para coordinar la entrega</li>
-        <li>Inicio de implementación en los primeros 7 días hábiles</li>
+        <li>Inicio de implementación en los primeros 7 días hábiles posteriores a la formalización del contrato respectivo</li>
       </ul>
     </div>
   </div>
-
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
-  <div class="footer-brand">CERTUS Consultores</div>
-  <div class="footer-legal">© 2025 Bufete Jurídico · Mérida, Yucatán · Información protegida y confidencial</div>
+  <div class="footer-brand">CERTUS CONSULTORES / ESPINOSA SALAZAR</div>
+  <div class="footer-legal">© 2026 · Mérida, Yucatán · Información protegida y confidencial</div>
 </footer>
-
 <script>
 const WEBHOOK_URL = 'https://hook.us2.make.com/mt9mp0t41u62mfuveuwzqjrrv2bdxwpq';
-
+const TOTAL = 4;
 let currentSection = 1;
 
+const $ = id => document.getElementById(id);
+const val = id => ($(id) ? $(id).value.trim() : '');
+const checked = name => [...document.querySelectorAll('input[name="' + name + '"]:checked')];
+
+/* ───────── Configuración por tipo de cliente ───────── */
+const TIPOS = {
+  inmobiliaria: {
+    desc2: 'Datos de la empresa y de su representante legal. Se usarán para personalizar los documentos del kit.',
+    desc3: 'Describa las actividades vulnerables que realiza y su volumen aproximado (art. 17, fracciones V y V Bis).',
+    desc4: 'La persona moral debe designar a un Representante de Cumplimiento ante la Secretaría (art. 20).',
+    razon: ['Razón social', 'Nombre o denominación completa, tal como aparece en su acta o constancia fiscal.'],
+    domicilio: 'Domicilio fiscal', nombre: 'Nombre completo', ttlRL: 'Representante legal',
+    numOps: 'Operaciones al mes (aprox.)'
+  },
+  notarial: {
+    desc2: 'Datos de la notaría y del notario titular. Se usarán para personalizar los documentos del kit.',
+    desc3: 'Indique los actos del art. 17, fr. XII, apartado A que la notaría formaliza y su volumen aproximado.',
+    desc4: 'El notario cumple personal y directamente con la Ley (art. 20); puede auxiliarse de un encargado operativo.',
+    razon: ['Nombre de la notaría o del notario', 'Nombre completo del notario titular, tal como aparece en su patente.'],
+    domicilio: 'Domicilio de la notaría', nombre: 'Nombre completo del notario titular', ttlRL: 'Notario titular',
+    numOps: 'Escrituras o actos al mes (aprox.)'
+  },
+  profesionistas: {
+    desc2: 'Datos del profesional o despacho. Se usarán para personalizar los documentos del kit.',
+    desc3: 'Indique los servicios del art. 17, fr. XI que presta a sus clientes y si realiza operaciones financieras en su nombre y representación.',
+    desc4: '',
+    razon: ['Nombre del profesional o del despacho', 'Nombre completo del profesional, o denominación del despacho.'],
+    domicilio: 'Domicilio fiscal', nombre: 'Nombre completo del profesional o representante del despacho', ttlRL: 'Profesional o representante',
+    numOps: 'Servicios o asuntos al mes (aprox.)'
+  }
+};
+
+function tipoSel() { const r = document.querySelector('input[name="tipo"]:checked'); return r ? r.value : ''; }
+function personaSel() {
+  const t = tipoSel();
+  if (t === 'notarial') return 'PF';
+  return $('tipoPersona').value || '';
+}
+
+/* ───────── Visibilidad dinámica ───────── */
+function applyType() {
+  const t = tipoSel(), p = personaSel();
+  document.querySelectorAll('[data-types]').forEach(el => {
+    el.hidden = !(t && el.dataset.types.split(' ').includes(t));
+  });
+  document.querySelectorAll('[data-rc]').forEach(el => { el.hidden = !(p && el.dataset.rc === p); });
+
+  // Opciones de forma de organización según tipo
+  const sel = $('tipoPersona');
+  [...sel.options].forEach(o => {
+    if (!o.dataset.t) return;
+    const show = o.dataset.t === t;
+    o.hidden = !show; o.disabled = !show;
+  });
+  if (sel.selectedOptions[0] && sel.selectedOptions[0].disabled) sel.value = '';
+
+  const c = TIPOS[t];
+  if (c) {
+    $('desc-2').textContent = c.desc2;
+    $('desc-3').textContent = c.desc3;
+    $('lbl-razonSocial').textContent = c.razon[0];
+    $('hint-razonSocial').textContent = c.razon[1];
+    $('lbl-domicilio').textContent = c.domicilio;
+    $('lbl-nombreRL').textContent = c.nombre;
+    $('ttl-rl').textContent = c.ttlRL;
+    $('lbl-numOps').textContent = c.numOps;
+    $('desc-4').textContent = p === 'PM'
+      ? 'La persona moral debe designar a un Representante de Cumplimiento ante la Secretaría (art. 20).'
+      : (t === 'profesionistas'
+          ? 'El profesional persona física cumple personal y directamente con la Ley (art. 20).'
+          : c.desc4);
+  }
+  $('title-4').textContent = p === 'PF' ? 'Cumplimiento personal' : 'Representante de Cumplimiento';
+}
+
+/* ───────── Validación ───────── */
+function clearErrors(section) {
+  document.querySelectorAll('#section-' + section + ' .field-error').forEach(e => e.classList.remove('visible'));
+  document.querySelectorAll('#section-' + section + ' input, #section-' + section + ' select, #section-' + section + ' textarea')
+    .forEach(f => f.classList.remove('error'));
+  $('error-' + section) && $('error-' + section).classList.remove('visible');
+}
+function showError(id, msg) {
+  const errEl = $('err-' + id), input = $(id);
+  if (errEl) { if (msg) errEl.textContent = msg; errEl.classList.add('visible'); }
+  if (input) input.classList.add('error');
+}
+function visible(id) { const el = $(id); return !!el && !el.closest('[hidden]'); }
+
+function validateSection(n) {
+  clearErrors(n);
+  const t = tipoSel(), p = personaSel();
+  let ok = true;
+  const req = id => { if (visible(id) && !val(id)) { showError(id); ok = false; } };
+  const email = id => { if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val(id))) { showError(id, 'Ingrese un correo electrónico válido.'); ok = false; } };
+
+  if (n === 1) {
+    if (!t) { showError('tipo'); ok = false; }
+    if (t && t !== 'notarial' && !$('tipoPersona').value) { showError('tipoPersona'); ok = false; }
+  }
+  if (n === 2) {
+    ['razonSocial', 'numNotaria', 'ciudad', 'domicilio', 'nombreRL'].forEach(req);
+    if (!/^[A-ZÑ&]{3,4}\d{6}[A-Z0-9]{3}$/.test(val('rfc').toUpperCase())) {
+      showError('rfc', 'Ingrese un RFC válido (12 o 13 caracteres).'); ok = false;
+    }
+    email('emailRL');
+  }
+  if (n === 3) {
+    if (t === 'inmobiliaria' && !checked('inc-inmobiliaria').length) { showError('inc-inmobiliaria'); ok = false; }
+    if (t === 'notarial' && !checked('inc-notarial').length) { showError('inc-notarial'); ok = false; }
+    if (t === 'profesionistas') {
+      if (!checked('inc-profesionistas').length) { showError('inc-profesionistas'); ok = false; }
+      ['profesion', 'actuaRep'].forEach(req);
+      if ($('profesion').value === 'otra') req('profesionOtra');
+    }
+    ['numOperaciones', 'montoPromedio', 'estadosOperacion', 'estaRegistrado', 'historial'].forEach(req);
+  }
+  if (n === 4) {
+    if (p === 'PM') {
+      ['tieneRC', 'nombreRC', 'cargoRC'].forEach(req);
+      email('emailRC');
+    }
+    if (val('emailEO') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('emailEO'))) { showError('emailEO', 'Ingrese un correo válido.'); ok = false; }
+    req('numEmpleados');
+  }
+  if (!ok) $('error-' + n).classList.add('visible');
+  return ok;
+}
+
+/* ───────── Navegación ───────── */
 function updateProgress(step) {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('step-' + i);
+  for (let i = 1; i <= TOTAL + 1; i++) {
+    const el = $('step-' + i);
     el.classList.remove('active', 'done');
     if (i < step) el.classList.add('done');
     else if (i === step) el.classList.add('active');
   }
 }
-
 function showSection(n) {
   document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-  const sec = document.getElementById('section-' + n);
+  const sec = $('section-' + n);
   if (sec) sec.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-function clearErrors(section) {
-  document.querySelectorAll('#section-' + section + ' .field-error').forEach(e => e.classList.remove('visible'));
-  document.querySelectorAll('#section-' + section + ' input, #section-' + section + ' select, #section-' + section + ' textarea')
-    .forEach(f => f.classList.remove('error'));
-  document.getElementById('error-' + section)?.classList.remove('visible');
-}
-
-function showError(id, msg) {
-  const errEl = document.getElementById('err-' + id);
-  const input = document.getElementById(id);
-  if (errEl) { errEl.textContent = msg || errEl.textContent; errEl.classList.add('visible'); }
-  if (input) input.classList.add('error');
-}
-
-function validateSection1() {
-  clearErrors(1);
-  let valid = true;
-
-  const razonSocial = document.getElementById('razonSocial').value.trim();
-  const rfc = document.getElementById('rfc').value.trim().toUpperCase();
-  const ciudad = document.getElementById('ciudad').value.trim();
-  const domicilio = document.getElementById('domicilio').value.trim();
-  const nombreRL = document.getElementById('nombreRL').value.trim();
-  const emailRL = document.getElementById('emailRL').value.trim();
-
-  if (!razonSocial) { showError('razonSocial'); valid = false; }
-  if (!rfc || rfc.length < 12) { showError('rfc', 'Ingrese un RFC válido (mínimo 12 caracteres).'); valid = false; }
-  if (!ciudad) { showError('ciudad'); valid = false; }
-  if (!domicilio) { showError('domicilio'); valid = false; }
-  if (!nombreRL) { showError('nombreRL'); valid = false; }
-  if (!emailRL || !emailRL.includes('@')) { showError('emailRL', 'Ingrese un correo electrónico válido.'); valid = false; }
-
-  if (!valid) document.getElementById('error-1').classList.add('visible');
-  return valid;
-}
-
-function validateSection2() {
-  clearErrors(2);
-  let valid = true;
-
-  const actividades = [...document.querySelectorAll('input[name="actividad"]:checked')].map(c => c.value);
-  const numOps = document.getElementById('numOperaciones').value;
-  const monto = document.getElementById('montoPromedio').value;
-  const estados = document.getElementById('estadosOperacion').value.trim();
-  const registrado = document.getElementById('estaRegistrado').value;
-  const tieneRC = document.getElementById('tieneRC').value;
-
-  if (actividades.length === 0) { showError('actividades', 'Seleccione al menos una actividad.'); valid = false; }
-  if (!numOps) { showError('numOperaciones'); valid = false; }
-  if (!monto) { showError('montoPromedio'); valid = false; }
-  if (!estados) { showError('estadosOperacion'); valid = false; }
-  if (!registrado) { showError('estaRegistrado'); valid = false; }
-  if (!tieneRC) { showError('tieneRC'); valid = false; }
-
-  if (!valid) document.getElementById('error-2').classList.add('visible');
-  return valid;
-}
-
-function validateSection3() {
-  clearErrors(3);
-  let valid = true;
-
-  const nombreRC = document.getElementById('nombreRC').value.trim();
-  const cargoRC = document.getElementById('cargoRC').value.trim();
-  const emailRC = document.getElementById('emailRC').value.trim();
-  const numEmpleados = document.getElementById('numEmpleados').value;
-
-  if (!nombreRC) { showError('nombreRC'); valid = false; }
-  if (!cargoRC) { showError('cargoRC'); valid = false; }
-  if (!emailRC || !emailRC.includes('@')) { showError('emailRC', 'Ingrese un correo electrónico válido.'); valid = false; }
-  if (!numEmpleados) { showError('numEmpleados'); valid = false; }
-
-  if (!valid) document.getElementById('error-3').classList.add('visible');
-  return valid;
-}
-
 function goToSection(n) {
   if (n > currentSection) {
-    if (currentSection === 1 && !validateSection1()) return;
-    if (currentSection === 2 && !validateSection2()) return;
+    for (let s = currentSection; s < n; s++) if (!validateSection(s)) return;
   }
   currentSection = n;
+  applyType();
   updateProgress(n);
   showSection(n);
 }
 
+/* ───────── Payload ───────── */
+const LETRAS = ['a', 'b', 'c', 'd', 'e'];
+function lista(arr) {
+  if (arr.length <= 1) return arr.join('');
+  return arr.slice(0, -1).join(', ') + ' y ' + arr[arr.length - 1];
+}
 function buildPayload() {
-  const actividades = [...document.querySelectorAll('input[name="actividad"]:checked')].map(c => c.value).join(', ');
-
-  return {
-    cliente: {
-      La_Empresa: document.getElementById('razonSocial').value.trim(),
-      RFC: document.getElementById('rfc').value.trim().toUpperCase(),
-      Domicilio: document.getElementById('domicilio').value.trim(),
-      Ciudad: document.getElementById('ciudad').value.trim(),
-      Actividades: actividades,
-      NombreRepresentanteLegal: document.getElementById('nombreRL').value.trim(),
-      Email: document.getElementById('emailRL').value.trim(),
-      TelefonoRL: document.getElementById('telefonoRL').value.trim(),
-      NumOperacionesMes: document.getElementById('numOperaciones').value,
-      MontoPromedio: document.getElementById('montoPromedio').value,
-      EstadosOperacion: document.getElementById('estadosOperacion').value.trim(),
-      EstaRegistradoSPPLD: document.getElementById('estaRegistrado').value,
-      TieneRC: document.getElementById('tieneRC').value,
-      RepresentantePLD: document.getElementById('nombreRC').value.trim(),
-      CargoRC: document.getElementById('cargoRC').value.trim(),
-      EmailRC: document.getElementById('emailRC').value.trim(),
-      TelefonoRC: document.getElementById('telefonoRC').value.trim(),
-      NumEmpleados: document.getElementById('numEmpleados').value,
-      Comentarios: document.getElementById('comentarios').value.trim(),
-      FechaRegistro: new Date().toISOString()
-    }
+  const t = tipoSel(), p = personaSel();
+  const c = {
+    Tipo: t,
+    TipoPersona: p,
+    La_Empresa: val('razonSocial'),
+    RFC: val('rfc').toUpperCase(),
+    Domicilio: val('domicilio'),
+    Ciudad: val('ciudad'),
+    NombreRepresentanteLegal: val('nombreRL'),
+    Email: val('emailRL'),
+    TelefonoRL: val('telefonoRL'),
+    NumOperacionesMes: val('numOperaciones'),
+    MontoPromedio: val('montoPromedio'),
+    EstadosOperacion: val('estadosOperacion'),
+    EstaRegistradoSPPLD: val('estaRegistrado'),
+    HistorialIncumplimiento: val('historial'),
+    NumEmpleados: val('numEmpleados'),
+    Comentarios: val('comentarios'),
+    FechaRegistro: new Date().toISOString()
   };
+
+  if (t === 'inmobiliaria') {
+    c.Actividades = checked('inc-inmobiliaria').map(x => x.value).join(', ');
+  } else {
+    const name = t === 'notarial' ? 'inc-notarial' : 'inc-profesionistas';
+    const sel = checked(name);
+    const ninguno = sel.some(x => x.value === 'ninguno');
+    const letras = ninguno ? [] : sel.map(x => x.value);
+    const excl = LETRAS.filter(l => !letras.includes(l)).map(l => l + ')');
+    c.Incisos = letras.join(',');
+    c.IncisosTexto = ninguno ? '' : sel.map(x => x.dataset.txt).join('; ');
+    c.IncisosNoPrestados = excl.length ? lista(excl) : 'Ninguno';
+    if (t === 'notarial') {
+      c.NumeroNotaria = val('numNotaria');
+      c.Actividades = c.IncisosTexto || 'Ninguno de los actos del art. 17, fr. XII, apartado A';
+    } else {
+      c.Profesion = $('profesion').value === 'otra' ? val('profesionOtra') : val('profesion');
+      c.CedulaProfesional = val('cedula');
+      c.ActuaEnRepresentacion = val('actuaRep');
+      c.LineasExcluidas = val('lineasExcluidas');
+      c.Actividades = c.Profesion || '';
+    }
+  }
+
+  if (p === 'PM') {
+    c.TieneRC = val('tieneRC');
+    c.RepresentantePLD = val('nombreRC');
+    c.CargoRC = val('cargoRC');
+    c.EmailRC = val('emailRC');
+    c.TelefonoRC = val('telefonoRC');
+  } else {
+    c.RepresentantePLD = val('nombreRL');
+    c.EncargadoOperativo = val('nombreEO');
+    c.CargoEncargado = val('cargoEO');
+    c.EmailEncargado = val('emailEO');
+  }
+  return { cliente: c };
 }
 
 async function submitForm() {
-  if (!validateSection3()) return;
-
-  const btn = document.getElementById('btn-submit');
+  if (!validateSection(4)) return;
+  const btn = $('btn-submit');
   btn.classList.add('loading');
-
-  const payload = buildPayload();
-
   try {
     const res = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(buildPayload())
     });
-
-    if (res.ok || res.status === 200) {
-      // Éxito
-      document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-      document.getElementById('success-screen').classList.add('active');
-      updateProgress(4);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      throw new Error('Error ' + res.status);
-    }
+    if (!res.ok) throw new Error('Error ' + res.status);
+    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+    $('success-screen').classList.add('active');
+    updateProgress(TOTAL + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (err) {
     btn.classList.remove('loading');
-    document.getElementById('error-3').textContent = 'Ocurrió un error al enviar el formulario. Por favor intente de nuevo o contáctenos directamente.';
-    document.getElementById('error-3').classList.add('visible');
+    $('error-4').textContent = 'Ocurrió un error al enviar el formulario. Por favor intente de nuevo o contáctenos directamente.';
+    $('error-4').classList.add('visible');
   }
 }
 
-// Auto-uppercase RFC
-document.getElementById('rfc').addEventListener('input', function() {
-  this.value = this.value.toUpperCase();
+/* ───────── Eventos ───────── */
+document.querySelectorAll('input[name="tipo"]').forEach(r => r.addEventListener('change', () => {
+  $('tipoPersona').value = '';
+  applyType();
+}));
+$('tipoPersona').addEventListener('change', applyType);
+$('rfc').addEventListener('input', function () { this.value = this.value.toUpperCase(); });
+$('profesion').addEventListener('change', function () {
+  $('fld-profesionOtra').hidden = this.value !== 'otra';
 });
+['notarial', 'profesionistas'].forEach(n => {
+  document.querySelectorAll('input[name="inc-' + n + '"]').forEach(cb => cb.addEventListener('change', () => {
+    if (cb.value === 'ninguno' && cb.checked) {
+      document.querySelectorAll('input[name="inc-' + n + '"]').forEach(o => { if (o !== cb) o.checked = false; });
+    } else if (cb.checked) {
+      $('ninguno-' + n).checked = false;
+    }
+  }));
+});
+applyType();
 </script>
 </body>
 </html>
